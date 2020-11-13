@@ -1,11 +1,15 @@
 call plug#begin('~/.vim/plugged')
 
+" Golang
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
 " syntax
 Plug 'sheerun/vim-polyglot'
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'yuezk/vim-js'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'flowtype/vim-flow'
+Plug 'cakebaker/scss-syntax.vim'
 
 " status bar
 Plug 'maximbaz/lightline-ale'
@@ -28,7 +32,7 @@ Plug 'benmills/vimux'
 Plug 'christoomey/vim-tmux-navigator'
 
 " autocomplete
-Plug 'sirver/ultisnips'
+"Plug 'sirver/ultisnips'
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 
 " test
@@ -39,7 +43,7 @@ Plug 'janko-m/vim-test'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'terryma/vim-multiple-cursors'
+Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'easymotion/vim-easymotion'
 Plug 'mhinz/vim-signify'
 Plug 'yggdroot/indentline'
@@ -51,5 +55,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
 Plug 'tpope/vim-repeat'
+
+" Powershell
+Plug 'pprovost/vim-ps1'
 
 call plug#end()

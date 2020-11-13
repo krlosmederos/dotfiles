@@ -3,6 +3,23 @@ let mapleader=" "
 " Esc
 inoremap jk <ESC>
 
+" Run :GoBuild or :GoTestCompile based on the go file
+function! s:build_go_files()
+let l:file = expand('%')
+if l:file =~# '^\f\+_test\.go$'
+  call go#test#Test(0, 1)
+elseif l:file =~# '^\f\+\.go$'
+  call go#cmd#Build(0)
+endif
+endfunction
+
+" Map keys for golang build, run and test
+autocmd FileType go nmap <leader>gb :<C-u>call <SID>build_go_files()<CR>
+autocmd FileType go nmap <leader>gr  <Plug>(go-run)
+autocmd FileType go nmap <leader>gt  <Plug>(go-test)
+" :GoMetaLinter
+autocmd FileType go nmap <Leader>l <Plug>(go-metalinter)
+
 " testing
 nnoremap <Leader>t :TestNearest<CR>
 nnoremap <Leader>T :TestFile<CR>
@@ -64,9 +81,10 @@ nnoremap <silent> <C-e> 10<C-e>
 nnoremap <silent> <C-y> 10<C-y>
 nmap <Leader>s <Plug>(easymotion-s2)
 
-nnoremap <Leader>G :G<cr>
-nnoremap <Leader>gp :Gpush<cr>
-nnoremap <Leader>gl :Gpull<cr>
+" Conflict with Go linter (I use git bash)
+" nnoremap <Leader>G :G<cr>
+" nnoremap <Leader>gp :Gpush<cr>
+" nnoremap <Leader>gl :Gpull<cr>
 
 nnoremap <Leader>x :!node %<cr>
 

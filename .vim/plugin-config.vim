@@ -1,29 +1,51 @@
 " HTML, JSX
 let g:closetag_filenames = '*.html,*.js,*.jsx,*.ts,*.tsx'
+
+" vim-visual-multi
+let g:VM_no_meta_mappings = 1
+
+" Go syntax highlighting
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_generate_tags = 1
+
+" Auto formatting and importing
+let g:go_fmt_autosave = 1
+let g:go_fmt_command = "goimports"
+let g:go_autodetect_gopath = 1
+let g:go_list_type = "quickfix"
+
+" Status line types/signatures
+let g:go_auto_type_info = 1
+
+
 " Lightlane
 let g:lightline = {
-      \ 'active': {
-      \   'left': [['mode', 'paste'], [], ['relativepath', 'modified']],
-      \   'right': [['cocstatus'], ['filetype', 'percent', 'lineinfo'], ['gitbranch']]
-      \ },
-      \ 'inactive': {
-      \   'left': [['inactive'], ['relativepath']],
-      \   'right': [['bufnum']]
-      \ },
-      \ 'component': {
-      \   'bufnum': '%n',
-      \   'inactive': 'inactive'
-      \ },
-      \ 'component_function': {
-      \   'gitbranch': 'fugitive#head',
-      \   'cocstatus': 'coc#status'
-      \ },
-      \ 'colorscheme': 'gruvbox',
-      \ 'subseparator': {
-      \   'left': '',
-      \   'right': ''
-      \ }
-      \}
+\ 'active': {
+\   'left': [['mode', 'paste'], [], ['relativepath', 'modified']],
+\   'right': [['cocstatus'], ['filetype', 'percent', 'lineinfo'], ['gitbranch']]
+\ },
+\ 'inactive': {
+\   'left': [['inactive'], ['relativepath']],
+\   'right': [['bufnum']]
+\ },
+\ 'component': {
+\   'bufnum': '%n',
+\   'inactive': 'inactive'
+\ },
+\ 'component_function': {
+\   'gitbranch': 'fugitive#head',
+\   'cocstatus': 'coc#status'
+\ },
+\ 'colorscheme': 'gruvbox',
+\ 'subseparator': {
+\   'left': '',
+\   'right': ''
+\ }
+\}
 
 "  nerdtree
 let NERDTreeShowHidden=1
@@ -59,13 +81,13 @@ let g:gitgutter_sign_removed = '-'
 let g:gitgutter_sign_removed_first_line = '-'
 let g:gitgutter_sign_modified_removed = '-'
 
-let g:NERDTreeIgnore = ['^node_modules$']
+let g:NERDTreeIgnore = ['^node_modules$', '^.git']
 
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsSnippetDirectories=[$HOME.'/config/.vim/UltiSnips']
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<S-tab>"
+"let g:UltiSnipsSnippetDirectories=[$HOME.'/.config/.vim/UltiSnips']
+"let g:UltiSnipsExpandTrigger="<tab>"
+"let g:UltiSnipsJumpForwardTrigger="<tab>"
+"let g:UltiSnipsJumpBackwardTrigger="<S-tab>"
 
 " deoplete
 let g:deoplete#enable_at_startup = 1
@@ -102,8 +124,34 @@ set signcolumn=yes
 " fugitive always vertical diffing
 set diffopt+=vertical
 
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
 " Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
+
+" Make <CR> auto-select the first completion item and notify coc.nvim to
+" format on enter, <cr> could be remapped by other vim plugin
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+" Use <c-space> to trigger completion.
+"inoremap <silent><expr> <c-space> coc#refresh()
 
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)

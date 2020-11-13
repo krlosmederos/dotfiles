@@ -77,7 +77,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git docker dotnet zsh-syntax-highlighting zsh-autosuggestions golang)
+plugins=(git docker zsh-syntax-highlighting zsh-autosuggestions golang nvm)
 
 if type brew &>/dev/null; then
   FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
@@ -121,37 +121,20 @@ alias v="nvim"
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-
-
-  
-# This scripts is copied from (MIT License):
-# https://github.com/dotnet/toolset/blob/master/scripts/register-completions.zsh
-
-_dotnet_zsh_complete() 
-{
-  local completions=("$(dotnet complete "$words")")
-
-  # If the completion list is empty, just continue with filename selection
-  if [ -z "$completions" ]
-  then
-    _arguments '*::arguments: _normal'
-    return
-  fi
-
-  # This is not a variable assigment, don't remove spaces!
-  _values = "${(ps:\n:)completions}"
-}
-
-compdef _dotnet_zsh_complete dotnet
-
-# Aliases bellow are here for backwards compatibility
-# added by Shaun Tabone (https://github.com/xontab) 
-alias dotnet="/usr/local/share/dotnet/dotnet"
-
 # Custom alias
 alias ping='ping -c 5'
 
 [[ /usr/local/bin/kubectl ]] && source <(kubectl completion zsh)
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# .Net Core
+if [ -d "$HOME/.dotnet" ] ; then
+    export PATH="$PATH:$HOME/.dotnet" # Add the directory where the dotnet executable lives
+fi
+
+if [ -d "$HOME/.dotnet/tools" ] ; then
+    export PATH="$PATH:$HOME/.dotnet/tools" # Add the directory where dotnet global tools are going to be saved
+fi
+
 
