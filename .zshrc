@@ -77,7 +77,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git docker zsh-syntax-highlighting zsh-autosuggestions golang nvm)
+plugins=(git docker zsh-syntax-highlighting zsh-autosuggestions golang nvm virtualenv python pip poetry)
 
 if type brew &>/dev/null; then
   FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
@@ -136,5 +136,20 @@ fi
 if [ -d "$HOME/.dotnet/tools" ] ; then
     export PATH="$PATH:$HOME/.dotnet/tools" # Add the directory where dotnet global tools are going to be saved
 fi
+# _dotnet_zsh_complete()
+#{
+  #local completions=("$(dotnet complete "$words")")
 
+  #reply=( "${(ps:\n:)completions}" )
+#}
 
+#compctl -K _dotnet_zsh_complete dotnet
+
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi
+eval "$(pyenv init -)"
+
+export VIRTUALENVWRAPPER_PYTHON='/usr/bin/python3'
+
+export PATH="$HOME/.poetry/bin:$PATH"

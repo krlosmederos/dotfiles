@@ -1,3 +1,7 @@
+Import-Module Az.Tools.Predictor
+Set-PSReadLineOption -PredictionSource HistoryAndPlugin
+Set-PSReadLineOption -PredictionViewStyle ListView
+
 function azc {
     $allContexts = (Get-AzContext -List | Sort-Object Account)
     $contextArray = @()
